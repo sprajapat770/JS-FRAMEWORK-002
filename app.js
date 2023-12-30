@@ -60,3 +60,8 @@ app.use((req, res) => {
 //POST
 //DELETE
 //PUT
+
+//MVC Basics
+//Model, View, Controller
+//MVC is a way of structuring out code & files
+//Keeps code more moduler, resuable & easier to read
