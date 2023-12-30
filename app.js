@@ -19,46 +19,47 @@ app.set('views', 'view');
 
 //middleware & static files
 app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true}));
 app.use(morgan('dev'));
 
-app.get('/add-blog', (req, res) => {
-    console.log('blog page');
-    const blog = new Blog({
-        title: 'My First Blog',
-        snippet: 'My first Blog snippet',
-        body: 'Finally Released the blog to show you guys!'
-    });
-
-    blog.save().then(result => {
-        res.send(result);
-    }).catch(err => console.log(err));
-});
-
-app.get('/all-blog', (req, res) => {
-    Blog.find().then(result => res.send(result))
-    .catch(err =>console.log(err));
-});
-
-app.get('/single-blog', (req, res) => {
-    Blog.findById('65900bc5220740e0db6b39e2').then(result => res.send(result))
-    .catch(err =>console.log(err));
-});
-
 app.get('/', (req, res) => {
-    const blogs = [
-        {title: 'Your First Blog', snippet: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, voluptas?'},
-        {title: 'Your Second Blog', snippet: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, voluptas?'},
-        {title: 'Your Third Blog', snippet: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, voluptas?'},
-    ]
-    res.render('index', {title: 'Home', blogs});
+    res.redirect('/blogs');
+});
+
+app.get('/blogs', (req, res) => {
+    Blog.find().sort({createdAt: -1})
+    .then(result => res.render('index', {title: 'Home', blogs: result}))
+    .catch(err =>console.log(err));
 });
 
 app.get('/about', (req, res) => {
     res.render('about',{title: 'About'});
 });
 
+app.post('/blogs', (req, res) => {
+    const blog = new Blog(req.body);
+    
+    blog.save().then(result => {
+        res.redirect('/blogs');
+    }).catch(err => console.log(err));
+});
+
 app.get('/blogs/create', (req, res) => {
     res.render('create', {title: 'A New Blog'});
+});
+
+app.get('/blogs/:id', (req, res) => {
+    const id = req.params.id;
+    Blog.findById(id)
+    .then(result => res.render('details', {title: 'Blog Detail', blog: result}))
+    .catch(err => console.log( err));
+});
+
+app.delete('/blogs/:id', (req, res) => { 
+    const id = req.params.id;
+    Blog.findByIdAndDelete(id)
+    .then(result => { res.json({ redirect: '/blogs'})})
+    .catch(err => console.log( err));
 });
 
 //redirects
@@ -81,3 +82,10 @@ app.use((req, res) => {
 //Authentication check middleware for protected routes
 //Middleware to parse JSON data from request
 //Return 404 Pages
+
+
+//Request Types
+//GET
+//POST
+//DELETE
+//PUT

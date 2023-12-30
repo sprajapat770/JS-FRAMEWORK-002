@@ -7,11 +7,13 @@
         <h2>All Blogs</h2>
         <% if(blogs.length > 0) { %>
             <% blogs.forEach(blog => { %>
-                <h3 class="blog-title"><%= blog.title%></h3>
-                <p class="blog-snippet"><%= blog.snippet%></p>
+                <a href="/blogs/<%= blog._id%>">
+                    <h3 class="blog-title"><%= blog.title%></h3>
+                    <p class="blog-snippet"><%= blog.snippet%></p>
+                </a>
             <% })%>
         <% } else {%>
-            <p class="no-blog"><%= 'No Blog Found' %></p>
+            <p class="no-blog"><%= 'Be the First To Write Blog' %></p>
         <% }%>
     </div>
     <%- include('./components/footer.ejs') %>
