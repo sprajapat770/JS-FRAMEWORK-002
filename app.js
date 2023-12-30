@@ -7,6 +7,20 @@ app.set('views', 'view');
 //listen for port 3000
 app.listen(3000);
 
+//middleware
+app.use((req, res, next) => {
+    console.log('new request made');
+    console.log('host: ', req.hostname);
+    console.log('path: ', req.path);
+    console.log('method: ', req.method);
+    next();
+});
+
+app.use((req, res, next) => {
+    console.log('in the next middleware');
+    next();
+});
+
 app.get('/', (req, res) => {
     const blogs = [
         {title: 'Your First Blog', snippet: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, voluptas?'},
@@ -38,3 +52,9 @@ app.use((req, res) => {
 });
 
 //some concept of websocket connection possible with express
+
+//middleware
+//Logger middleware to log details of every request
+//Authentication check middleware for protected routes
+//Middleware to parse JSON data from request
+//Return 404 Pages
