@@ -1,12 +1,31 @@
 const http = require('http');
 const fs = require('fs');
+const _ = require('lodash');
 
 //server request handler
 const server = http.createServer((req, res) => {
+
+    //lodash
+    const num = _.random(0, 20);
+    console.log(num);
     // request object
     // console.log('request made');
-    console.log(req.url, req.method);
+    // console.log(req.url, req.method);
 
+    const greet = _.once(() => {
+        console.log('hello');
+    });
+
+    // const greet = () => {
+    //     console.log('hello');
+    // };
+
+    greet();
+    greet();
+
+    let diff = _.difference([2, 1, 5, 3], [2, 4, 3]);
+
+    console.log(diff);
     // response object
     // res.setHeader('Content-Type', 'text/plain');
     // res.write('Hello Server')
