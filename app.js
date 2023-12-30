@@ -1,23 +1,48 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const Blog = require('./models/blog');
+const { result } = require('lodash');
 
 //express app
 const app = express();
 const dbURI = 'mongodb+srv://suraj:suraj@nodetuts.xtrdwpo.mongodb.net/node-tuts?retryWrites=true&w=majority';
-console.log('trying connecting');
+
 mongoose.connect(dbURI)
+
 .then(result =>  { console.log('connected to db'); app.listen(3000)})
 .catch(err => console.log('err'));
 
 app.set('view engine', 'ejs');
 app.set('views', 'view');
 //listen for port 3000
-;
 
 //middleware & static files
 app.use(express.static('public'));
 app.use(morgan('dev'));
+
+app.get('/add-blog', (req, res) => {
+    console.log('blog page');
+    const blog = new Blog({
+        title: 'My First Blog',
+        snippet: 'My first Blog snippet',
+        body: 'Finally Released the blog to show you guys!'
+    });
+
+    blog.save().then(result => {
+        res.send(result);
+    }).catch(err => console.log(err));
+});
+
+app.get('/all-blog', (req, res) => {
+    Blog.find().then(result => res.send(result))
+    .catch(err =>console.log(err));
+});
+
+app.get('/single-blog', (req, res) => {
+    Blog.findById('65900bc5220740e0db6b39e2').then(result => res.send(result))
+    .catch(err =>console.log(err));
+});
 
 app.get('/', (req, res) => {
     const blogs = [
