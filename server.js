@@ -23,7 +23,7 @@ const server = http.createServer((req, res) => {
     greet();
     greet();
 
-    let diff = _.difference([2, 1, 5, 3], [2, 4, 3]);
+    let diff = _.difference([2, 1, 5,], [2, 4, 3]);
 
     console.log(diff);
     // response object
