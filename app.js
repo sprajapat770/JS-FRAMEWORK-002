@@ -1,12 +1,19 @@
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 
 //express app
 const app = express();
+const dbURI = 'mongodb+srv://suraj:suraj@nodetuts.xtrdwpo.mongodb.net/node-tuts?retryWrites=true&w=majority';
+console.log('trying connecting');
+mongoose.connect(dbURI)
+.then(result =>  { console.log('connected to db'); app.listen(3000)})
+.catch(err => console.log('err'));
+
 app.set('view engine', 'ejs');
 app.set('views', 'view');
 //listen for port 3000
-app.listen(3000);
+;
 
 //middleware & static files
 app.use(express.static('public'));
