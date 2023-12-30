@@ -1,25 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog EJS | <%= title %></title>
-</head>
+    <%- include('./components/header.ejs') %>
 <body>
-    <% const name= 'suraj' %>
-    <nav>
-        <div class="site-title">
-            <p><%= name %></p>
-            <a href="/">Blog Page</a>
-            <p>A Blog Site</p>
-        </div>
-        <ul>
-            <li><a href="/">Blogs</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="blogs/create">New Blog</a></li>
-        </ul>
-    </nav>
-
+    <%- include('./components/nav.ejs') %>
     <div class="blogs content">
         <h2>All Blogs</h2>
         <% if(blogs.length > 0) { %>
@@ -31,5 +14,6 @@
             <p class="no-blog"><%= 'No Blog Found' %></p>
         <% }%>
     </div>
+    <%- include('./components/footer.ejs') %>
 </body>
 </html>
